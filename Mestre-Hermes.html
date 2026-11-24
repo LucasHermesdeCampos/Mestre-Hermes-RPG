@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mestre Hermes | RPG Profissional</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050507;
+            --bg-card: rgba(20, 20, 28, 0.4);
+            --accent-gold: #d4af37;
+            --accent-purple: #8338ec;
+            --accent-pink: #ff006e;
+            --accent-red: #ef233c;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Luzes ambientais de fundo para o efeito de vidro funcionar */
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(131, 56, 236, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(255, 0, 110, 0.05) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Cinzel', serif; }
+
+        /* Apple-style Glass Utility */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(5, 5, 7, 0.65);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 45px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.3));
+        }
+
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        nav a:hover { color: var(--accent-gold); }
+
+        /* Hero */
+        .hero {
+            margin-top: 80px;
+            padding: 8rem 5% 6rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, var(--accent-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            max-width: 650px;
+            margin: 0 auto 2rem;
+            font-weight: 300;
+        }
+
+        /* Systems */
+        .systems {
+            padding: 3rem 5%;
+        }
+
+        .systems-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .system-tag {
+            padding: 0.7rem 1.8rem;
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--accent-gold);
+            transition: all 0.3s ease;
+        }
+
+        .system-tag:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Tabs */
+        .tabs-container {
+            padding: 2rem 5% 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tabs-header {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .tab-btn {
+            padding: 0.8rem 2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border-radius: 100px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn.active {
+            background: rgba(131, 56, 236, 0.15);
+            color: #fff;
+            border-color: rgba(131, 56, 236, 0.5);
+            box-shadow: 0 0 20px rgba(131, 56, 236, 0.2);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+        }
+
+        /* Grid */
+        .campaigns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(131, 56, 236, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(131, 56, 236, 0.1);
+            background: rgba(30, 30, 40, 0.6);
+        }
+
+        .card-image {
+            width: 100%;
+            aspect-ratio: 1844 / 1200;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .badge-available { background: rgba(46, 204, 113, 0.2); color: #4ade80; border-color: rgba(46, 204, 113, 0.3); }
+        .badge-full { background: rgba(239, 35, 60, 0.2); color: #f87171; border-color: rgba(239, 35, 60, 0.3); }
+
+        .card-content { padding: 1.5rem; }
+
+        .card-system {
+            color: var(--accent-purple);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .card-meta span { display: flex; align-items: center; gap: 0.6rem; }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            background: rgba(15, 15, 20, 0.85);
+            backdrop-filter: blur(30px) saturate(200%);
+            -webkit-backdrop-filter: blur(30px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+        /* Custom Scrollbar for Modal */
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-track { background: transparent; }
+        .modal-content::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+        .modal-content::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem; right: 1.5rem;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover { background: rgba(239, 35, 60, 0.8); border-color: transparent; }
+
+        .modal-header-img {
+            width: 100%;
+            aspect-ratio: 1844 / 1200;
+            object-fit: cover;
+            mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+        }
+
+        .modal-body { padding: 0 2.5rem 2.5rem; margin-top: -4rem; position: relative; }
+
+        .modal-title {
+            font-size: 2.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .modal-type {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .info-item h4 {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.4rem;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        .info-item p { font-size: 0.95rem; color: var(--text-primary); font-weight: 500; }
+
+        .section-title {
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 2.5rem 0 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .synopsis {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1rem;
+            border-left: 3px solid var(--accent-purple);
+            padding-left: 1.2rem;
+            margin-bottom: 1.5rem;
+            background: rgba(131, 56, 236, 0.03);
+            padding: 1.2rem;
+            border-radius: 0 12px 12px 0;
+        }
+
+        .highlights-list {
+            list-style: none;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .highlights-list li {
+            position: relative;
+            padding-left: 1.8rem;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .highlights-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--accent-gold);
+            font-size: 1rem;
+        }
+
+        .themes-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .theme-tag {
+            padding: 0.4rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+        
+        .theme-tag:hover {
+            background: rgba(131, 56, 236, 0.15);
+            border-color: rgba(131, 56, 236, 0.4);
+            color: var(--text-primary);
+        }
+
+        .price-box {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            margin: 2.5rem 0 1.5rem;
+        }
+
+        .price-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 1.1rem;
+            background: var(--accent-purple);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(131, 56, 236, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #9b4dff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(131, 56, 236, 0.5);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 5%;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            color: var(--text-primary);
+            margin-bottom: 3.5rem;
+            font-size: 2.2rem;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.02);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.06);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-family: 'Cinzel', serif;
+            font-size: 5rem;
+            color: var(--accent-purple);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px; left: 20px;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+            font-size: 1.05rem;
+        }
+
+        .testimonial-author {
+            margin-top: 2rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+            text-align: right;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .footer-logo {
+            height: 50px;
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+            filter: grayscale(100%) brightness(200%);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero { padding: 6rem 5% 4rem; }
+            .campaigns-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; }
+            .tabs-header { flex-direction: column; }
+            .modal-body { padding: 0 1.5rem 1.5rem; }
+            .modal-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">
+            <img src="Icone-Hermes_V2.png" alt="H" onerror="this.src='Icone-Hermes_V1.png'">
+            <span class="logo-text">Mestre Hermes</span>
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#sistemas">Sistemas</a></li>
+                <li><a href="#mesas">Mesas</a></li>
+                <li><a href="#depoimentos">Depoimentos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Vamos Construir uma História?</h1>
+        <p>Experiências de RPG profissionais, imersivas e inesquecíveis. Mestrado com 10 anos de experiência, foco em narrativa, agência dos jogadores e produção de alta qualidade.</p>
+    </section>
+
+    <section id="sistemas" class="systems">
+        <div class="systems-grid">
+            <div class="system-tag">D&D 2024 (5.5e)</div>
+            <div class="system-tag">Tormenta 20</div>
+            <div class="system-tag">Ordem Paranormal</div>
+            <div class="system-tag">Fabula Ultima</div>
+            <div class="system-tag">Call of Cthulhu 7e</div>
+        </div>
+    </section>
+
+    <section id="mesas" class="tabs-container">
+        <div class="tabs-header">
+            <button class="tab-btn active" onclick="filterTables('available')">Vagas Disponíveis</button>
+            <button class="tab-btn" onclick="filterTables('all')">Todas as Mesas</button>
+        </div>
+        <div class="campaigns-grid" id="campaignsGrid">
+            <!-- Cards injetados via JavaScript -->
+        </div>
+    </section>
+
+    <section id="depoimentos" class="testimonials">
+        <h2>O Que Dizem os Jogadores</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">Definitivamente um dos melhores mestres com quem já tive a experiência de jogar. Foi uma das primeiras mesas de RPG comissionadas de que participei, e a qualidade da narração realmente me impressionou. Hoje já jogo há mais de um ano em três mesas comissionadas diferentes, e ainda considero o trabalho dele um grande destaque. Muito atencioso, prestativo e com ótima narração.</p>
+                <p class="testimonial-author">— WCFresh</p>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">Fenomenal e intocável, mestre prestativo, atencioso e sabe o que faz. Recomendo 100%. A qualidade das sessões faz o preço valer muito a pena, principalmente pelo cuidado que ele tem com os jogadores e a imersão da mesa.</p>
+                <p class="testimonial-author">— Jogador de Tumba da Aniquilação</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <img src="Icone-Hermes_V2.png" alt="Logo" class="footer-logo" onerror="this.style.display='none'">
+        <p>&copy; 2026 Mestre Hermes. Todos os direitos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; opacity: 0.7;">Dúvidas? Chame na DM!</p>
+    </footer>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <img src="" alt="Thumbnail" class="modal-header-img" id="modalImg">
+            <div class="modal-body">
+                <h2 class="modal-title" id="modalTitle"></h2>
+                <span class="modal-type" id="modalType"></span>
+                
+                <div class="info-grid" id="modalInfo"></div>
+                
+                <div class="section-title">📜 Sinopse</div>
+                <div class="synopsis" id="modalSynopsis"></div>
+                
+                <div class="section-title">💀 Destaques da Mesa</div>
+                <ul class="highlights-list" id="modalHighlights"></ul>
+                
+                <div class="section-title">🎭 Temas</div>
+                <div class="themes-container" id="modalThemes"></div>
+
+                <div class="price-box" id="modalPrice"></div>
+
+                <a href="#" target="_blank" class="btn-primary" id="modalForm">Inscrever-se na Mesa</a>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Dúvidas? Me chama na DM!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // BANCO DE DADOS DAS MESAS (MODULAR)
+        // ==========================================
+        const campaigns = [
+            {
+                id: 1,
+                image: "osegredoderanthur.png",
+                title: "O Segredo de Ranthur",
+                type: "Campanha Longa | Em Andamento",
+                system: "Tormenta 20: Jogo do Ano",
+                level: "01 → 20",
+                spots: "3/6 Vagas Disponíveis",
+                schedule: "Sexta-feira [13:00-16:00] [Semanal]",
+                platform: "Foundry VTT",
+                communication: "Discord (+WhatsApp)",
+                requirements: "Computador, Microfone",
+                age: "18+",
+                price: "R$20,00 p/ Sessão",
+                themes: ["Exploração", "Investigação", "Sobrevivência", "Intriga", "Estratégia", "Fantasia", "Alta Fantasia"],
+                synopsis: "A história começa com acontecimentos aparentemente isolados. Problemas locais, conflitos e mistérios que, à primeira vista, parecem ter pouco em comum. Mas, conforme os aventureiros avançam, antigas histórias começam a se encontrar. Conflitos do passado deixam marcas no presente. Personagens, lugares e acontecimentos que pareciam independentes revelam conexões muito maiores.<br><br>O Segredo de Ranthur é uma campanha de 20 níveis dividida em três arcos: Floresta de Tollon, Montanhas Uivantes e Doherimm, na qual eventos e mistérios locais se conectam gradualmente à medida que exploram um mundo vivo repleto de facções com visões e interesses próprios.",
+                highlights: [
+                    "Disponibilidade de todos os Suplementos de T20.",
+                    "Mapas, efeitos, sonorização e iluminação dinâmica.",
+                    "Alterações no módulo para incentivar a agência do jogador na narrativa!",
+                    "Mapas autorais exclusivamente para a aventura.",
+                    "Mestre com dez anos de experiência."
+                ],
+                form: "https://forms.gle/K37tx4dgHp2bafJk7",
+                isFull: false
+            },
+            {
+                id: 2,
+                image: "fullgordosdeuses.png",
+                title: "Fullgor dos Deuses",
+                type: "Campanha Longa | Em Breve",
+                system: "Tormenta 20: Jogo do Ano",
+                level: "1 ao 20",
+                spots: "3/6 Vagas Disponíveis",
+                schedule: "Sexta-Feira (13:00-16:00) [Semanal]",
+                platform: "Foundry VTT",
+                communication: "Discord (+ WhatsApp)",
+                requirements: "Computador, Microfone",
+                price: "R$20,00 p/ Sessão",
+                themes: ["Batalha", "Guerra", "Épico", "Ação", "Aventura"],
+                synopsis: "Seja bem-vindo à campanha Fulgor dos Deuses, uma jornada épica para levar heróis do 1º ao 20º nível a lutar pelos deuses de Arton contra mal indizível e cumprir a vingança final de Mestre Arsenal. Nesta guerra secreta contra o Fullgor, uma entidade de horror cósmico que corrompeu os deuses antigos e agora ameaça o Panteão, os heróis não enfrentarão apenas combates, mas também estarão de frente a segredos antigos e profundos dilemas morais.<br><br>Ao longo de vinte aventuras, os personagens enfrentarão o Fullgor e seus servos, os fullgori, em uma missão onde cada vitória fortalece o grupo até que provem seu valor diante do Deus da Guerra.",
+                highlights: [
+                    "Todos os Suplementos de Tormenta 20 Jogo do Ano.",
+                    "Mapas com efeitos e iluminación dinámica.",
+                    "Mapas, diários e documentos inéditos autorais.",
+                    "Alterações na aventura para aumentar a agência dos jogadores."
+                ],
+                form: "https://forms.gle/astj6wA43vzHHTxd8",
+                isFull: false
+            },
+            {
+                id: 3,
+                image: "vendetaoculta.png",
+                title: "Vendeta Oculta [Encerrada]",
+                type: "Campanha Longa | Encerrada",
+                system: "Ordem Paranormal 1.3",
+                level: "NEX 15%-75% (Nível 3-15)",
+                spots: "4/6 Vagas Disponíveis",
+                schedule: "Quinta-Feira (13:00-17:00) [Semanal]",
+                platform: "Foundry VTT (+ C.R.I.S.)",
+                communication: "Discord (+ WhatsApp)",
+                requirements: "Computador, Microfone, Internet",
+                price: "R$25,00 p/ Sessão",
+                themes: ["Horror", "Ação", "Investigação", "Drama", "Mistério", "Brasileiro", "Sobrenatural"],
+                synopsis: "Escondida a plena vista, uma poderosa família ocultista move seus planos macabros. Por trás de fachadas empresariais e promessas de progresso, um herdeiro prepara rituais sombrios, assassinatos e manipulações capazes de afinar a Membrana e abrir caminho para o Outro Lado.<br><br>O que parece apenas uma série de incidentes isolados é, na verdade, parte de uma trama muito maior. E apenas um grupo de civis, arrastados pelo acaso para dentro do horror, poderá descobrir a verdade.",
+                highlights: [
+                    "Sobrevivendo ao Horror + Arquivos Secretos.",
+                    "Visão revisionada e repaginada da série.",
+                    "Mapas e documentos inéditos autorais.",
+                    "Mapas com efeitos e iluminación dinámica."
+                ],
+                form: "https://forms.gle/tZurgkg21RHozh84A",
+                isFull: true
+            },
+            {
+                id: 4,
+                image: "crookedmoon.png",
+                title: "Crooked Moon",
+                type: "Campanha Longa | Em Breve",
+                system: "Dungeons and Dragons 5.5e",
+                level: "1-13",
+                spots: "2/6 Vagas Disponíveis",
+                schedule: "Domingo (19:30-23:30) [Semanal]",
+                platform: "Foundry VTT",
+                communication: "Discord (+ WhatsApp)",
+                requirements: "Computador, Microfone, Internet",
+                price: "R$25,00 p/ Sessão",
+                themes: ["Aventura", "Horror Folclórico", "Fantasia Sombria", "Mistério", "Suspense", "Investigação", "Isolamento", "Moralidade", "Folclore"],
+                synopsis: "Em algum lugar, perdido nos reinos enevoados da morte, existe uma terra de noite eterna, onde horrores há muito esquecidos se revelam àqueles que atravessam a névoa. Ali, em uma casa torta, vive um Homem Torto com um sorriso igualmente retorcido.<br><br>Agora é hora de enfrentar a floresta sombria, temer a hora das bruxas e tecer seu próprio conto folclórico aterrador sob a Lua Torta. Prepare-se para embarcar em uma jornada rumo ao desconhecido, onde povos estranhos, guiados por superstições ancestrais, reverenciam os Velhos Costumes.<br><br><em>Nota: Esta campanha começa em janeiro de 2027.</em>",
+                highlights: [
+                    "Aventura de Horror Folclórico para D&D 5.5e",
+                    "Criaturas sobrenaturais e antigas tradições",
+                    "Ambientação imersiva e misteriosa"
+                ],
+                form: "https://forms.gle/CBFiTg2wBhD4AgvA6",
+                isFull: false
+            },
+            {
+                id: 5,
+                image: "deadfall.png",
+                title: "Arcana Unleashed: Deadfall",
+                type: "Campanha Longa | Em Andamento",
+                system: "D&D 5.5e",
+                level: "11 → 20",
+                spots: "0/6 Vagas",
+                schedule: "Sábado [08:00-12:00]",
+                duration: "15-20 sessões",
+                platform: "Foundry VTT",
+                communication: "Discord (+WhatsApp)",
+                requirements: "Computador, Microfone",
+                age: "16+",
+                price: "R$25,00 p/ Sessão",
+                themes: ["Espionagem", "Infiltração", "Suspense", "Thriller", "Conflito", "Intriga Política", "Conspiração", "Dungeoncrawl", "Combate", "Social", "Investigação"],
+                synopsis: "Nas profundezas dos Reinos Esquecidos, a nação de Thay — famosa por seus magos tirânicos vestidos de vermelho — projeta uma sombra sinistra sobre sua mesa. Segredos são passados no escuro; uma ameaça iminente de poder inimaginável busca destruir sociedades, e um nome está no centro de tudo isso: Szass Tam.<br><br>Mergulhe no mundo da espionagem arcana, alianças frágeis e missões clandestinas nesta aventura mágica de suspense de espionagem criada para jogos de alto nível.",
+                highlights: [
+                    "Aventura de thriller arcano, focada em infiltração, suspense e espionagem.",
+                    "Foundry VTT com mapas, iluminação dinâmica, efeitos e sonorização.",
+                    "Maior agência dos jogadores, com liberdade para escolher como enfrentar os desafios.",
+                    "Mestre com 10 anos de experiência."
+                ],
+                form: "https://forms.gle/YuNczHiPTfiCCUR88",
+                isFull: true
+            },
+            {
+                id: 6,
+                image: "maldicaodestrahd.png",
+                title: "Maldição de Strahd",
+                type: "Campanha Longa | Encerrando",
+                system: "Dungeons and Dragons 5.5e",
+                level: "1-10",
+                spots: "2/6 Vagas Disponíveis",
+                schedule: "Domingo (19:30-23:30) [Semanal]",
+                platform: "Foundry VTT",
+                communication: "Discord (+ WhatsApp)",
+                requirements: "Computador, Microfone, Internet",
+                price: "R$25,00 p/ Sessão",
+                themes: ["Horror Gótico", "Fantasia Sombria", "Medieval", "Aventura", "Sobrevivência", "Drama", "Investigação", "Terror"],
+                synopsis: "Barovia é um domínio envolto em névoas perpétuas, onde a esperança se perdeu e a luz do sol mal consegue atravessar. Entre aldeias abandonadas e ruínas sombrias, os recém-chegados deverão enfrentar horrores indescritíveis e desvendar os segredos da maldição que assola a região.<br><br>Participe de uma jornada completa por Barovia, uma terra amaldiçoada e dominada pelo lorde vampiro Strahd von Zarovich. Uma campanha de horror gótico, exploração e dilemas morais, agora apresentada em uma versão completamente revisada e expandida.",
+                highlights: [
+                    "Uma das campanhas mais aclamadas da quinta edição",
+                    "Versão completamente revisada e expandida",
+                    "Foco em horror gótico e dilemas morais"
+                ],
+                form: "#",
+                isFull: false
+            },
+            {
+                id: 7,
+                image: "tumbadaaniquilacao.png",
+                title: "Tumba da Aniquilação",
+                type: "Campanha Longa | Em Andamento",
+                system: "Dungeons and Dragons 5.5e",
+                level: "Lvl 3",
+                spots: "1/6 Vagas",
+                schedule: "Sábado (20:00-00:00) [Quinzenal]",
+                platform: "Foundry VTT",
+                communication: "Discord (+WhatsApp)",
+                requirements: "Computador",
+                price: "R$25,00 p/ Sessão",
+                themes: ["Aventura", "Dinossauros", "Dungeoncrawl", "Exploração", "Hexcrawl", "Fantasia", "Hardcore", "Sobrevivência"],
+                synopsis: "O que se fala nas ruas e nas tavernas tem sido sobre a chamada maldição da morte: uma doença devastadora que aflige todos os que já ressuscitaram dos mortos. As vítimas ficam mais magras e mais fracas a cada dia, deslizando lenta mas continuamente em direção à morte que antes negavam.<br><br>A causa é uma presença necromântica chamada de 'Fomentador de Almas', que está localizado em algum lugar de Chult, uma península misteriosa ao sul, cercada por montanhas e sufocada por florestas tropicais.",
+                highlights: [
+                    "Adaptação aprimorada com um mestre de dez anos de experiência.",
+                    "Imersão garantida com trilha sonora, mapas, animações, cinemáticas e iluminação dinâmica.",
+                    "Alterações no módulo para reforçar a agência dos jogadores.",
+                    "Aventura hardcore com foco na exploração hexcrawl e sobrevivência."
+                ],
+                form: "https://forms.gle/adwbFi1zDLwRpVx16",
+                trailer: "https://youtu.be/kZ1Qto2o828",
+                isFull: false
+            }
+        ];
+
+        // ==========================================
+        // LÓGICA DE RENDERIZAÇÃO E INTERAÇÃO
+        // ==========================================
+        
+        function renderCampaigns(filter) {
+            const grid = document.getElementById('campaignsGrid');
+            grid.innerHTML = '';
+
+            const filtered = filter === 'available' 
+                ? campaigns.filter(c => !c.isFull) 
+                : campaigns;
+
+            filtered.forEach(c => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.onclick = () => openModal(c);
+
+                const badgeClass = c.isFull ? 'badge-full' : 'badge-available';
+                const badgeText = c.isFull ? 'Lotada' : 'Vagas Disponíveis';
+
+                card.innerHTML = `
+                    <img src="${c.image}" alt="${c.title}" class="card-image" onerror="this.src='https://via.placeholder.com/1844x1200/14141c/d4af37?text=${encodeURIComponent(c.title)}'">
+                    <span class="card-badge ${badgeClass}">${badgeText}</span>
+                    <div class="card-content">
+                        <div class="card-system">${c.system}</div>
+                        <h3 class="card-title">${c.title}</h3>
+                        <div class="card-meta">
+                            <span>📅 ${c.schedule}</span>
+                            <span>👥 ${c.spots}</span>
+                            <span>💻 ${c.platform}</span>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterTables(type) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderCampaigns(type);
+        }
+
+        function openModal(c) {
+            document.getElementById('modalImg').src = c.image;
+            document.getElementById('modalImg').onerror = function() { this.src = `https://via.placeholder.com/1844x1200/14141c/d4af37?text=${encodeURIComponent(c.title)}`; };
+            document.getElementById('modalTitle').textContent = c.title;
+            document.getElementById('modalType').textContent = c.type + (c.subtitle ? ` — ${c.subtitle}` : '');
+            
+            let infoHTML = `
+                <div class="info-item"><h4>Sistema</h4><p>${c.system}</p></div>
+                <div class="info-item"><h4>Nível</h4><p>${c.level}</p></div>
+                <div class="info-item"><h4>Vagas</h4><p>${c.spots}</p></div>
+                <div class="info-item"><h4>Horário</h4><p>${c.schedule}</p></div>
+                <div class="info-item"><h4>Plataforma</h4><p>${c.platform}</p></div>
+                <div class="info-item"><h4>Requisitos</h4><p>${c.requirements}</p></div>
+            `;
+            if (c.age) infoHTML += `<div class="info-item"><h4>Idade Mínima</h4><p>${c.age}</p></div>`;
+            if (c.duration) infoHTML += `<div class="info-item"><h4>Duração</h4><p>${c.duration}</p></div>`;
+            
+            document.getElementById('modalInfo').innerHTML = infoHTML;
+            document.getElementById('modalSynopsis').innerHTML = c.synopsis;
+            document.getElementById('modalHighlights').innerHTML = c.highlights.map(h => `<li>${h}</li>`).join('');
+            document.getElementById('modalThemes').innerHTML = c.themes.map(t => `<span class="theme-tag">${t}</span>`).join('');
+            document.getElementById('modalPrice').innerHTML = `<div class="price-text">${c.price}</div>`;
+            
+            const formBtn = document.getElementById('modalForm');
+            if (c.isFull) {
+                formBtn.textContent = "Mesa Lotada (Lista de Espera na DM)";
+                formBtn.style.background = "rgba(255,255,255,0.1)";
+                formBtn.style.color = "var(--text-secondary)";
+                formBtn.style.pointerEvents = "none";
+                formBtn.style.boxShadow = "none";
+            } else {
+                formBtn.textContent = "Inscrever-se na Mesa";
+                formBtn.style.background = "var(--accent-purple)";
+                formBtn.style.color = "white";
+                formBtn.style.pointerEvents = "auto";
+                formBtn.style.boxShadow = "0 4px 20px rgba(131, 56, 236, 0.3)";
+                formBtn.href = c.form;
+            }
+
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(e) {
+            if (!e || e.target.id === 'modal' || e.target.className === 'modal-close') {
+                document.getElementById('modal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCampaigns('available');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
